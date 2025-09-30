@@ -23,7 +23,10 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
 
 ---
 
-## Model parameters (as used in this Simulink model)
+## Simulink Model & Model parameters
+
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/ss_200.png)
+
 | Component / Parameter | Name in model | Value used |
 |---|---:|---:|
 | Input voltage | `V_in` | **12 V** |
