@@ -9,7 +9,7 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
 
 ## Repository contents
 - `model/` — (Simulink files) the full Simulink model files (.slx/.mdl).  
-- `figures/` — waveform images exported from the simulation:
+- `Images/` — waveform images exported from the simulation:
   - `I1_waveform.png`
   - `I2_waveform.png`
   - `I3_waveform.png`
@@ -20,8 +20,6 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
   - `Vo_minus_waveform.png`
 - `README.md` — this file.
 - `docs/` — optional supporting documentation (if present).
-
-> If your repo uses a different folder layout, adjust the paths above accordingly.
 
 ---
 
@@ -37,106 +35,79 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
 | Coupling / switching capacitors | `C_11, C_21, etc.` | **22 μF** |
 | MOSFET & diode stresses | `V_ds`, `I_d(peak)`, `V_r(max)`, `I_f(peak)` | **Not specified in model (N/A)** — select devices with adequate voltage/current margin (see notes) |
 
-**Notes from the model spreadsheet:**
-- The model was built for **100 kHz**. The user requested 5 kHz; because L & C scale with switching frequency, the component values are too low for 5 kHz operation and will cause high ripple at the lower frequency.
-- The shown `L` and `C` are too low for 5 kHz and will result in excessive current and voltage ripple if you simply drop the switching frequency.
-- MOSFETs/Diodes: the model does not explicitly list device voltage/current ratings — you must pick real parts rated to withstand `V_in + V_out` when off and peak inductor currents during conduction/transient conditions.
+---
+
+## Waveform Results
+
+| Filename | Description | Peak Value (Max) | Average (DC) | Peak-to-Peak Ripple |
+|---|---|---:|---:|---:|
+| `Images/I1_waveform.png` | Inductor Current (Phase 1) | ~12.5 A | Varies (DCM) | ~12.5 A |
+| `Images/I2_waveform.png` | Inductor Current (Phase 2) | ~12.5 A | Varies (DCM) | ~12.5 A |
+| `Images/I3_waveform.png` | Inductor Current (Phase 3) | ~12.5 A | Varies (DCM) | ~12.5 A |
+| `Images/I4_waveform.png` | Inductor Current (Phase 4) | ~12.5 A | Varies (DCM) | ~12.5 A |
+| `Images/I_battery_waveform.png` | Total Battery Current | ~12.5 A | ~2.78 A | ~12.5 A |
+| `Images/I_load_waveform.png` | Total Load Current | ~1.12 A | ~1.11 A | ~0.013 A |
+| `Images/Vo_plus_waveform.png` | Positive Output Voltage | ~15.18 V | ~15 V | ~0.36 V |
+| `Images/Vo_minus_waveform.png` | Negative Output Voltage | -14.82 V | ~-15 V | ~0.36 V |
 
 ---
 
-## How to run the model (Simulink)
-1. Open MATLAB and Simulink.
-2. Open the model file located in `model/` (e.g. `4phase_cuk_sepic.slx`).
-3. Confirm sample time and solver:
-   - Discrete sample time used in the model block appears as `1e-07` (consistent with a 100 kHz switching period; check sample settings).
-   - Solver: `Fixed-step` recommended for switching simulations; choose small step size (≤ switching period / 20). The model uses discrete switching blocks and a small fixed time step.
-4. Run the simulation for a few milliseconds (several switching cycles; e.g. 2–10 ms) to capture steady waveforms.
-5. Export waveforms or open scopes and save the figures to `figures/` if needed.
+## Figure Captions & Commentary
 
----
+### `Images/I1_waveform.png`  
+**Phase-1 inductor current (I1).** Peaks at ~12.5 A, operating in DCM (discontinuous conduction mode), with ~12.5 A peak-to-peak ripple.
 
-## Figure list and textual comments (captions / explanations)
-Below are the figures saved from simulation and textual comments you can use as captions in a paper/README/figures list.
+### `Images/I2_waveform.png`  
+**Phase-2 inductor current (I2).** Similar to I1, interleaved by 90°. Ripple ~12.5 A. Helps cancel input ripple when combined with other phases.
 
-### `I1_waveform.png`  
-**Caption / comment:** Phase-1 inductor current (I1). Shows the inductor conduction during switching intervals and the ripple current superimposed on the average inductor current. Interleaving with other phases reduces total input current ripple.
+### `Images/I3_waveform.png`  
+**Phase-3 inductor current (I3).** Shows balanced current sharing. Ripple ~12.5 A.
 
-### `I2_waveform.png`  
-**Caption / comment:** Phase-2 inductor current (I2). Similar waveform to I1 but phase-shifted by 90° (for four-phase interleaving) to spread switching events and reduce input and output ripple.
+### `Images/I4_waveform.png`  
+**Phase-4 inductor current (I4).** Completes 4-phase pattern. Ripple ~12.5 A.
 
-### `I3_waveform.png`  
-**Caption / comment:** Phase-3 inductor current (I3). Phase-shifted inductor current showing the same ripple and average as other phases; used to demonstrate balanced current sharing between phases.
+### `Images/I_battery_waveform.png`  
+**Input battery/source current.** Peak ~12.5 A, average ~2.78 A. Ripple magnitude ~12.5 A, reduced compared to single-phase due to interleaving.
 
-### `I4_waveform.png`  
-**Caption / comment:** Phase-4 inductor current (I4). Completes the 4-phase interleaving pattern; combined with other phases, the net input current ripple is significantly reduced.
+### `Images/I_load_waveform.png`  
+**Load current waveform.** Average ~1.11 A at 30 V / 27 Ω. Ripple small (~13 mA), indicating good output filtering.
 
-### `I_battery_waveform.png`  
-**Caption / comment:** Battery / source current waveform. Shows the total current drawn from the input source (sum of all phase currents). Because of interleaving, the battery current ripple is lower than the ripple of a single phase.
+### `Images/Vo_plus_waveform.png`  
+**Output positive rail voltage.** Average ~15 V (half of 30 V differential), ripple ~0.36 V.
 
-### `I_load_waveform.png`  
-**Caption / comment:** Load current waveform. Shows current delivered to the load (at ~30 V out / 27 Ω load). Check steady-state magnitude and any ripple due to converter switching.
-
-### `Vo_plus_waveform.png`  
-**Caption / comment:** Output positive rail voltage (`V_o_plus`). Shows the DC output voltage and switching ripple present on the positive output node. Should be ~30 V DC with small ripple for 100 kHz design and the selected component values.
-
-### `Vo_minus_waveform.png`  
-**Caption / comment:** Output negative rail / reference (`V_o_minus`). If used as negative rail or return measurement, shows the voltage relative to ground. Use this to check output regulation and common-mode behavior.
-
-> Tip: Add time and amplitude annotations to each saved figure (MATLAB/Simulink scope settings) for publication clarity.
+### `Images/Vo_minus_waveform.png`  
+**Output negative rail voltage.** Average ~-15 V, ripple ~0.36 V.
 
 ---
 
 ## Design / scaling notes (100 kHz vs 5 kHz)
-The model components are sized for 100 kHz operation. If you want to run the same converter at **5 kHz**, inductance and capacitance must be increased to keep ripple levels similar. Inductance scales approximately inversely with switching frequency (for a given ripple specification) and so does capacitance (for the same ripple and ESR assumptions).
+The model components are sized for 100 kHz operation. If you want to run the same converter at **5 kHz**, inductance and capacitance must be increased to keep ripple levels similar:
 
-**Scaling factor calculation (digit-by-digit):**
-- Ratio = (100 kHz) / (5 kHz) = `100000 / 5000` = `20`.
-- New L (approx) = `137 µH * 20` = `137 * 20 = 2740 µH = 2740 µH = 2.74 mH`.
-- New C (approx) = `22 µF * 20` = `22 * 20 = 440 µF`.
-
-**So:** For ~5 kHz operation (keeping similar ripple targets), try:
-- `L` per phase ≈ **2.74 mH** (≈ 2740 µH)  
-- `C` (filter/coupling) ≈ **440 µF**
-
-These are approximate — proper design requires ripple targets, ESR, core selection (for inductors), and thermal/current saturation checks.
+- Scaling factor = 100 kHz / 5 kHz = 20.  
+- New L ≈ 137 μH × 20 = **2.74 mH** (per phase).  
+- New C ≈ 22 μF × 20 = **440 μF**.  
 
 ---
 
 ## Device selection & stress checks
-- **MOSFETs:** Choose MOSFETs with `V_ds` rating ≥ `V_in + V_out` (peak transient margin recommended). Also check continuous and pulsed current ratings exceed expected peak inductor currents (I_peak).
-- **Diodes:** Select diodes (or synchronous rectifiers) that can block `V_in + V_out` when reverse biased and handle the peak inductor current when the switch is off.
-- **Inductors:** Check core saturation current and RMS/peak current capability. Interleaving reduces per-phase RMS current but ensure each inductor’s saturation current > inductor peak.
-- **Capacitors:** Low-ESR electrolytic / film capacitors on the output and coupling capacitors to reduce ripple and heating.
+- **MOSFETs:** Voltage ≥ (V_in + V_out) and current ≥ peak inductor current.  
+- **Diodes:** Reverse-block ≥ (V_in + V_out), current ≥ peak inductor current.  
+- **Inductors:** Core must withstand peak ~12.5 A per phase.  
+- **Capacitors:** Low ESR, handle ~0.36 V ripple at output.
 
 ---
 
-## Known issues & recommendations
-- The model spreadsheet notes the design mismatch: the user requested a 5 kHz design but values correspond to **100 kHz**. If you change `f_s` to 5 kHz without changing L/C, you will see much larger voltage/current ripple and possibly simulation instability.
-- The model does not list MOSFET/diode device part numbers or ratings — pick parts with comfortable margins (e.g., MOSFET `V_ds` ≥ 100 V if `V_in + V_out` ~ 42 V plus transients).
-- Use measurement probes and currents to verify power balance: input power vs. output power plus losses.
-- For long transient runs, use solver settings appropriate for switching circuits (fixed step, sufficiently small step, or use averaged model for faster long-term studies).
-
----
-
-## Useful additions / future work
-- Add explicit MOSFET/diode part models for thermal & conduction loss estimation.
-- Add an averaged model (for control design & slower simulations).
-- Add a closed-loop control block for output voltage regulation (PID/PI with current limit).
-- Create parameterized script to auto-scale L and C when switching frequency or ripple targets are changed.
-
----
-
-## Licensing
-This repository is released under the MIT License — adapt as you prefer.
+## Known issues
+- Running at 5 kHz with 137 μH / 22 μF will cause **excessive ripple**.  
+- MOSFET/diode device models are not included; stress analysis must be done for real hardware selection.
 
 ---
 
 ## Author / Contact
-- Author: *Your name here*  
-- Contact: *your.email@domain* (edit as needed)
+- Author: *Your Name*  
+- Contact: *your.email@domain*  
 
 ---
 
-## Citation
-If you use this model in academic work, please cite the repository and include simulation details (switching frequency, component values, and interleaving strategy).
-
+## License
+MIT License
