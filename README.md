@@ -54,7 +54,7 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
 
 ## Figure Captions & Commentary
 
-### `Images/I1_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I1_waveform.png)
 **Phase-1 inductor current (I1).** Peaks at ~12.5 A, operating in DCM (discontinuous conduction mode), with ~12.5 A peak-to-peak ripple.
 
 ### `Images/I2_waveform.png`  
