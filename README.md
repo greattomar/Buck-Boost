@@ -57,25 +57,25 @@ The model was built at a switching frequency of **100 kHz** (see “Notes” bel
 ![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I1_waveform.png)
 **Phase-1 inductor current (I1).** Peaks at ~12.5 A, operating in DCM (discontinuous conduction mode), with ~12.5 A peak-to-peak ripple.
 
-### `Images/I2_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I2_waveform.png) 
 **Phase-2 inductor current (I2).** Similar to I1, interleaved by 90°. Ripple ~12.5 A. Helps cancel input ripple when combined with other phases.
 
-### `Images/I3_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I3_waveform.png)
 **Phase-3 inductor current (I3).** Shows balanced current sharing. Ripple ~12.5 A.
 
-### `Images/I4_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I4_waveform.png)  
 **Phase-4 inductor current (I4).** Completes 4-phase pattern. Ripple ~12.5 A.
 
-### `Images/I_battery_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I_battery_waveform.png) 
 **Input battery/source current.** Peak ~12.5 A, average ~2.78 A. Ripple magnitude ~12.5 A, reduced compared to single-phase due to interleaving.
 
-### `Images/I_load_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/I_load_waveform.png)  
 **Load current waveform.** Average ~1.11 A at 30 V / 27 Ω. Ripple small (~13 mA), indicating good output filtering.
 
-### `Images/Vo_plus_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/Vo_plus_waveform.png)  
 **Output positive rail voltage.** Average ~15 V (half of 30 V differential), ripple ~0.36 V.
 
-### `Images/Vo_minus_waveform.png`  
+![Figure 1: High-level block diagram of the DTC system in Simulink.](Images/Vo_minus_waveform.png) 
 **Output negative rail voltage.** Average ~-15 V, ripple ~0.36 V.
 
 ---
